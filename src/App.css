@@ -271,3 +271,176 @@ body {
   background-color: #0d1117 !important;
   overflow-x: auto;
 }
+
+/* ======================================================= */
+/* --- ALWAYS-VISIBLE PHASE STATUS PILL (text + color only) --- */
+/* ======================================================= */
+
+.status-taskbar-fixed {
+  position: fixed;
+  top: 18px;
+  right: 24px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card-bg);
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 8px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
+  animation: taskbar-slide-in 0.22s ease-out;
+}
+
+@keyframes taskbar-slide-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Analysing / Thinking: soft steady pulse so it reads as "working" */
+.status-dot-pulse {
+  animation: dot-pulse 1s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Live: quick blink a few times to announce the answer landed, then settle */
+.status-dot-blink {
+  animation: dot-blink 0.7s ease-in-out 4;
+}
+
+@keyframes dot-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.status-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: color 0.4s ease;
+  white-space: nowrap;
+}
+
+.status-thinking-bar-track {
+  width: 46px;
+  height: 4px;
+  border-radius: 4px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.status-thinking-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease, background-color 0.4s ease;
+}
+
+@media (max-width: 640px) {
+  .status-taskbar-fixed {
+    top: 12px;
+    right: 12px;
+    padding: 6px 12px;
+  }
+}
+
+/* --- PAST DOUBTS SHOW/HIDE TOGGLE --- */
+/* --- WHOLE-SIDEBAR OPEN/CLOSE TOGGLE --- */
+.sidebar-toggle-btn {
+  position: relative;
+  z-index: 55;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--card-bg);
+  border: 1px solid #e2e8f0;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.sidebar-toggle-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+/* Floating variant — only rendered while the sidebar is closed */
+.sidebar-toggle-fixed {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  width: 36px;
+  height: 36px;
+}
+
+/* Inline variant — sits next to the "EduQuery AI" heading when open */
+.sidebar-toggle-inline {
+  background: #21262d;
+  border-color: #2d3139;
+  color: #c9d1d9;
+}
+
+.sidebar-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.sidebar-title-row .sidebar-title {
+  margin-bottom: 0;
+}
+
+/* Tooltip only appears while the cursor is on the button — pure CSS hover */
+.sidebar-tooltip {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  background: #1f2430;
+  color: #f1f5f9;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.sidebar-toggle-btn:hover .sidebar-tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(10px);
+}
+
+/* --- LANDING GREETING (shown until the first explanation loads) --- */
+.hero-heading {
+  text-align: center;
+  margin: 4px 0 26px;
+}
+
+.hero-heading h2 {
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
+}
